@@ -1,0 +1,239 @@
+/* --- Googleフォントのインポート --- */
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin:wght@700&family=Noto+Sans+JP:wght@300;400;700&display=swap');
+
+/* --- カラーパレットと基本設定 --- */
+:root {
+    --bg-color: #0c0c14;
+    --card-bg-color: rgba(20, 20, 30, 0.65);
+    --text-color: #e0e0e0;
+    --title-color: #ffffff;
+    --primary-glow: #6a85ff;
+    --secondary-glow: #a656ff;
+    --border-radius: 18px;
+    --transition-speed: 0.5s;
+}
+
+/* --- 全体のスタイルとオーロラ背景 --- */
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* 横スクロール防止 */
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 15% 25%, var(--primary-glow), transparent 40%),
+        radial-gradient(circle at 85% 75%, var(--secondary-glow), transparent 40%),
+        radial-gradient(circle at 50% 50%, #2a3a75, transparent 50%);
+    background-color: var(--bg-color);
+    filter: blur(100px);
+    opacity: 0.3;
+    animation: aurora-flow 25s linear infinite;
+    z-index: -1;
+}
+
+@keyframes aurora-flow {
+    0% { transform: rotate(0deg) scale(1.2); }
+    50% { transform: rotate(180deg) scale(1.5); }
+    100% { transform: rotate(360deg) scale(1.2); }
+}
+
+/* --- カスタムスクロールバー (おまけのこだわり) --- */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #1a1a2a; }
+::-webkit-scrollbar-thumb { background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow)); border-radius: 4px; }
+
+/* --- コンテナとヘッダー --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.page-title {
+    font-family: 'Kaisei Tokumin', serif;
+    font-size: clamp(3rem, 8vw, 4.5rem);
+    background: linear-gradient(45deg, var(--title-color), #b0b0d0);
+    background-clip: text; /* ← この行を追加しました */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.back-to-home {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.8rem 1.8rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--title-color);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.back-to-home:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+}
+
+/* --- レストランカードのグリッドと登場アニメーション --- */
+.restaurant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2.5rem;
+    perspective: 1500px; /* 3D効果の視点 */
+}
+
+@keyframes card-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(50px) rotateX(-10deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+    }
+}
+
+.restaurant-card {
+    position: relative;
+    background: var(--card-bg-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    transform-style: preserve-3d; /* 3D空間を有効化 */
+    backdrop-filter: blur(12px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    /* 登場アニメーション */
+    opacity: 0;
+    animation: card-fade-in 0.8s ease-out forwards;
+}
+
+/* アニメーションを順番に開始させる */
+.restaurant-grid .restaurant-card:nth-child(1) { animation-delay: 0.1s; }
+.restaurant-grid .restaurant-card:nth-child(2) { animation-delay: 0.2s; }
+.restaurant-grid .restaurant-card:nth-child(3) { animation-delay: 0.3s; }
+.restaurant-grid .restaurant-card:nth-child(4) { animation-delay: 0.4s; }
+/* ...必要に応じて追加... */
+
+
+/* --- カードの輝くボーダー効果 --- */
+.restaurant-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: conic-gradient(
+        from 0deg at 50% 50%,
+        var(--secondary-glow), var(--primary-glow), var(--secondary-glow)
+    );
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease;
+    animation: spin 3s linear infinite paused; /* 最初は停止 */
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* --- カードのホバー効果 --- */
+.restaurant-card:hover {
+    transform: translateY(-12px) rotateX(5deg) rotateY(-5deg) scale(1.03);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+.restaurant-card:hover::before {
+    opacity: 1;
+    animation-play-state: running; /* ホバー時にアニメーション再生 */
+}
+
+.restaurant-card::after { /* カード本体の背景を覆う内側の要素 */
+    content: "";
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    right: 1px;
+    bottom: 1px;
+    background: var(--card-bg-color);
+    border-radius: calc(var(--border-radius) - 1px);
+    z-index: -1;
+}
+
+/* --- カード内部のコンテンツ --- */
+.card-image-container {
+    height: 220px;
+    overflow: hidden;
+}
+
+.card-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-speed) ease;
+}
+
+.restaurant-card:hover .card-image-container img {
+    transform: scale(1.1);
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+
+.card-content h3 {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    margin: 0 0 0.75rem 0;
+    color: var(--title-color);
+}
+
+.card-content p {
+    margin: 0 0 1.25rem 0;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+.card-tags .tag {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    color: #c0c0c0;
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+}
+
+.card-tags .tag:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    transform: translateY(-2px);
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>電通大グルメ | Ultimate Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin:wght@700&family=Noto+Sans+JP:wght@300;400&display=swap');
+
+        :root {
+            --glow-ramen: #ff4500;
+            --glow-chinese: #e62e2e;
+            --glow-teishoku: #aaff00;
+            --glow-curry: #ff9933;
+            --glow-cafe: #00e5ff;
+            --glow-izakaya: #9933ff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #0d0d1a;
+            color: #fff;
+            font-family: 'Noto Sans JP', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            background: 
+                radial-gradient(ellipse at bottom, rgba(13, 13, 26, 1) 0%, rgba(13, 13, 26, 0) 60%),
+                linear-gradient(to top, rgba(13, 13, 26, 1) 0%, transparent 50%),
+                #0d0d1a;
+        }
+
+        .header {
+            transform: translateY(-20px);
+            opacity: 0;
+            animation: fadeInDown 1s 0.5s forwards;
+        }
+
+        .title {
+            font-family: 'Kaisei Tokumin', serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            color: #ccc;
+            margin-bottom: 3rem;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            perspective: 1000px;
+        }
+
+        .nav-link {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 220px;
+            height: 180px;
+            text-decoration: none;
+            color: #fff;
+            font-family: 'Kaisei Tokumin', serif;
+            font-size: 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateY(0) rotateX(0);
+            opacity: 0;
+            animation: fadeInUp 0.8s forwards;
+        }
+        
+        /* カードがポップアップするアニメーションの遅延設定 */
+        .nav-link:nth-child(1) { animation-delay: 0.8s; }
+        .nav-link:nth-child(2) { animation-delay: 0.9s; }
+        .nav-link:nth-child(3) { animation-delay: 1.0s; }
+        .nav-link:nth-child(4) { animation-delay: 1.1s; }
+        .nav-link:nth-child(5) { animation-delay: 1.2s; }
+        .nav-link:nth-child(6) { animation-delay: 1.3s; }
+
+        .nav-link i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+            transition: all 0.4s;
+        }
+
+        .nav-link:hover {
+            transform: rotateY(10deg) rotateX(5deg) translateZ(20px) scale(1.05);
+            border-color: var(--glow-color);
+            box-shadow: 0 15px 40px -10px var(--glow-color);
+            color: #fff;
+        }
+
+        .nav-link:hover i {
+            opacity: 1;
+            text-shadow: 0 0 15px var(--glow-color);
+        }
+
+        #ramen-link { --glow-color: var(--glow-ramen); }
+        #chinese-link { --glow-color: var(--glow-chinese); }
+        #teishoku-link { --glow-color: var(--glow-teishoku); }
+        #curry-link { --glow-color: var(--glow-curry); }
+        #cafe-link { --glow-color: var(--glow-cafe); }
+        #izakaya-link { --glow-color: var(--glow-izakaya); }
+
+        @keyframes fadeInDown {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+            .nav-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+            .nav-link {
+                width: 160px;
+                height: 140px;
+                font-size: 1.5rem;
+            }
+            .nav-link i {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1 class="title">電通大グルメ</h1>
+        <p class="subtitle">今日の胃袋、何で満たす？</p>
+    </header>
+
+    <div class="nav-grid">
+        <a href="ramen.html" class="nav-link" id="ramen-link">
+            <i class="fa-solid fa-bowl-rice"></i>ラーメン
+        </a>
+        <a href="chinese.html" class="nav-link" id="chinese-link">
+            <i class="fa-solid fa-pepper-hot"></i>中華
+        </a>
+        <a href="teishoku.html" class="nav-link" id="teishoku-link">
+            <i class="fa-solid fa-fish"></i>定食
+        </a>
+        <a href="curry.html" class="nav-link" id="curry-link">
+            <i class="fa-solid fa-plate-wheat"></i>カレー
+        </a>
+        <a href="cafe.html" class="nav-link" id="cafe-link">
+            <i class="fa-solid fa-mug-saucer"></i>カフェ
+        </a>
+        <a href="izakaya.html" class="nav-link" id="izakaya-link">
+            <i class="fa-solid fa-martini-glass-citrus"></i>居酒屋
+        </a>
+    </div>
+
+</body>
+</html>
